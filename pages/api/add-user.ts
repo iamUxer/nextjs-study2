@@ -12,15 +12,13 @@ async function userCreate(name: string) {
     const response = await notion.pages.create({
       parent: { database_id: databaseId },
       properties: {
-        title: {
-          title: [
-            {
-              text: {
-                content: name,
-              },
+        title: [
+          {
+            text: {
+              content: name,
             },
-          ],
-        },
+          },
+        ],
       },
     });
     console.log(response);
