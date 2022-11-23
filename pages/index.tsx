@@ -1,8 +1,16 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import Head from 'next/head';
+import Image from 'next/image';
+import 'antd/dist/antd.css';
+import styles from '../styles/Home.module.css';
+import { Button } from 'antd';
 
 export default function Home() {
+  const handleCreate = () => {
+    fetch('/api/add-user?name=User')
+      .then((res) => res.json())
+      .then((data) => alert(data.message));
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -15,6 +23,8 @@ export default function Home() {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
+
+        <Button onClick={handleCreate}>create api test</Button>
 
         <p className={styles.description}>
           Get started by editing{' '}
@@ -67,5 +77,5 @@ export default function Home() {
         </a>
       </footer>
     </div>
-  )
+  );
 }
