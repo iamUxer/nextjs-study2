@@ -1,4 +1,5 @@
 import { Avatar } from 'antd';
+import 'antd/dist/antd.css';
 import styled from 'styled-components';
 
 const AppProfile = styled.div`
@@ -13,7 +14,7 @@ const Profile = () => {
     <AppProfile>
       <Avatar
         style={{
-          backgroundColor: 'red',
+          backgroundColor: 'orange',
           verticalAlign: 'middle',
         }}
         size={128}

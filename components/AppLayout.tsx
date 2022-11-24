@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import 'antd/dist/antd.css';
 import { PhoneOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 import styled from 'styled-components';
@@ -28,7 +29,7 @@ const AppLayout = ({ children }: AppLayoutProps) => {
           </Link>
         </Menu.Item>
       </AppMenu>
-      <AppLayoutStyled>{children}</AppLayoutStyled>
+      <AppLayoutStyled style={{ height: '100%' }}>{children}</AppLayoutStyled>
     </>
   );
 };

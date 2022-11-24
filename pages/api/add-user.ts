@@ -35,8 +35,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const name = req.query;
-  console.log(name);
+  const { name } = req.query;
   if (name === null) {
     return res.status(400).json({ message: 'not exist name' });
   }
