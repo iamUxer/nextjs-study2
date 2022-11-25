@@ -21,10 +21,6 @@ const UserList = () => {
       .then((data) => setUserlist(data?.items));
   }, []);
 
-  //   useEffect(() => {
-  //     console.log('userlist : ', userlist);
-  //   }, userlist);
-
   return (
     <List itemLayout="horizontal">
       {userlist &&
