@@ -1,27 +1,15 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { Client } from '@notionhq/client';
+import { PrismaClient } from '@prisma/client';
 
-const notion = new Client({
-  auth: 'secret_AuQ2oyFKznEXlXgiqUNhiJviTjHWekFkSBmKjuc62Xc',
-});
-
-const databaseId = '7ca18616191c4f0bb835917db0b0deac';
+const prisma = new PrismaClient();
 
 async function userRead() {
   try {
-    const response = await notion.databases.query({
-      database_id: databaseId,
-      sorts: [
-        {
-          property: 'name',
-          direction: 'ascending',
-        },
-      ],
-    });
-    // console.log(response);
+    const response = await prisma.users.findMany();
+    console.log('response : ', response);
     return response;
   } catch (error) {
-    console.error(JSON.stringify(error));
+    console.error(error);
   }
 }
 
@@ -35,9 +23,9 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   try {
-    const response = await userRead();
+    const users = await userRead();
     res.status(200).json({
-      items: response?.results,
+      items: users,
       message: `Success to read Users list`,
     });
   } catch (error) {

@@ -1,4 +1,4 @@
-import { Avatar, List } from 'antd';
+import { Avatar, List, Skeleton } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
@@ -9,10 +9,8 @@ const AppAvatar = styled(Avatar)`
 
 type userType = {
   id: string;
-  properties: {
-    id: string;
-    name: string;
-  }[];
+  name: string;
+  image_url: string;
 };
 
 const UserList = () => {
@@ -22,28 +20,20 @@ const UserList = () => {
       .then((res) => res.json())
       .then((data) => setUserlist(data?.items));
   }, []);
+
   //   useEffect(() => {
-  //     console.log('setUserlist : ', userlist[0]);
-  //     console.log(Object.entries(userlist.properties));
-  //   }, [userlist]);
+  //     console.log('userlist : ', userlist);
+  //   }, userlist);
 
   return (
     <List itemLayout="horizontal">
       {userlist &&
         userlist.map((item) => (
-          <List.Item key={item.id}>
-            {/* {Object.values(item.properties.name)} */}
-            {/* {item.properties && console.log(Object.entries(item.properties))} */}
+          <List.Item key={'user-' + item.id}>
             <List.Item.Meta
-              avatar={<AppAvatar src={<UserOutlined />} />}
-              title={
-                <a href="">
-                  {JSON.stringify(item.properties)}
-                  {/* {Object.entries(item.properties)} */}
-                  {/* {item.properties} */}
-                </a>
-              }
-              description="Message"
+              avatar={<Avatar src={item.image_url} />}
+              title={<a href="https://ant.design">{item.name}</a>}
+              description={'user - ' + item.id}
             />
           </List.Item>
         ))}
