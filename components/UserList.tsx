@@ -1,16 +1,14 @@
-import { Avatar, List, Skeleton } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
-import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-
-const AppAvatar = styled(Avatar)`
-  background: cornflowerblue;
-`;
+import internal from 'stream';
+import { List, Skeleton } from 'antd';
+import { AppAvatar } from './styled/Avatar.styled';
 
 type userType = {
   id: string;
   name: string;
   image_url: string;
+  createdAt: string;
+  phone_number: string;
 };
 
 const UserList = () => {
@@ -27,10 +25,11 @@ const UserList = () => {
         userlist.map((item) => (
           <List.Item key={'user-' + item.id}>
             <List.Item.Meta
-              avatar={<Avatar src={item.image_url} />}
+              avatar={<AppAvatar src={item.image_url} />}
               title={<a href="https://ant.design">{item.name}</a>}
-              description={'user - ' + item.id}
+              description={item.createdAt}
             />
+            <div>{item.phone_number}</div>
           </List.Item>
         ))}
     </List>

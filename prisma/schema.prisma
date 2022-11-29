@@ -22,6 +22,9 @@ model users {
   name String
   image_url String?
   group_id Int
-  // group_id_idx Int
+  phone_number Int
+  createdAt DateTime @default(now())
+
+
   @@index([group_id])
 }

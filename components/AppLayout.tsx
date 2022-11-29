@@ -1,19 +1,6 @@
 import Link from 'next/link';
-import 'antd/dist/antd.css';
 import { PhoneOutlined } from '@ant-design/icons';
-import { Menu } from 'antd';
-import styled from 'styled-components';
-
-const AppLayoutStyled = styled.div`
-  height: 100%;
-`;
-
-const AppMenu = styled(Menu)`
-  li {
-    flex: 1;
-    text-align: center;
-  }
-`;
+import { AppLayoutStyled, AppMenu } from './styled/AppLayout.styled';
 
 type AppLayoutProps = {
   children: React.ReactNode;
@@ -23,11 +10,11 @@ const AppLayout = ({ children }: AppLayoutProps) => {
   return (
     <>
       <AppMenu mode="horizontal">
-        <Menu.Item icon={<PhoneOutlined />} key="home">
+        <AppMenu.Item icon={<PhoneOutlined />} key="home">
           <Link href="/">
             <a>My Phone Book</a>
           </Link>
-        </Menu.Item>
+        </AppMenu.Item>
       </AppMenu>
       <AppLayoutStyled style={{ height: '100%' }}>{children}</AppLayoutStyled>
     </>
