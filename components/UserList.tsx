@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import internal from 'stream';
 import { List, Skeleton } from 'antd';
-import { AppAvatar } from './styled/Avatar.styled';
+import { AppAvatar } from './styled/AppAvatar.styled';
 
-type userType = {
+type usersType = {
   id: string;
   name: string;
   image_url: string;
@@ -12,9 +12,9 @@ type userType = {
 };
 
 const UserList = () => {
-  const [userlist, setUserlist] = useState<userType[]>([]);
+  const [userlist, setUserlist] = useState<usersType[]>([]);
   useEffect(() => {
-    fetch('/api/get-user')
+    fetch('/api/get-users')
       .then((res) => res.json())
       .then((data) => setUserlist(data?.items));
   }, []);
@@ -26,7 +26,7 @@ const UserList = () => {
           <List.Item key={'user-' + item.id}>
             <List.Item.Meta
               avatar={<AppAvatar src={item.image_url} />}
-              title={<a href="https://ant.design">{item.name}</a>}
+              title={<a href="">{item.name}</a>}
               description={item.createdAt}
             />
             <div>{item.phone_number}</div>
