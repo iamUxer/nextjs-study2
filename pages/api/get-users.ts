@@ -4,23 +4,29 @@ import { getOrderBy } from 'constancts/users';
 
 const prisma = new PrismaClient();
 
-async function usersRead(group: number, orderBy: string) {
-  console.log('async group: ', group);
+async function usersRead(group: number, orderBy: string, contains: string) {
+  console.log('async contains: ', contains);
+  const getContainsState =
+    contains && contains !== ''
+      ? {
+          name: { contains: contains },
+        }
+      : undefined;
   const where = group
     ? {
-        where: {
-          group_id: group,
-        },
+        group_id: group,
+        ...getContainsState,
       }
+    : getContainsState
+    ? getContainsState
     : undefined;
   const getOrderByState = getOrderBy(orderBy);
-  console.log(getOrderByState);
   try {
     const response = await prisma.users.findMany({
-      ...where,
+      where: where,
       ...getOrderByState,
     });
-    console.log('response: ', response);
+    // console.log('response: ', response);
     return response;
   } catch (error) {
     console.error(error);
@@ -36,10 +42,14 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const { group, orderBy } = req.query;
+  const { group, orderBy, contains } = req.query;
 
   try {
-    const users = await usersRead(Number(group), String(orderBy));
+    const users = await usersRead(
+      Number(group),
+      String(orderBy),
+      String(contains)
+    );
     res.status(200).json({
       items: users,
       message: `Success to read Users list`,
