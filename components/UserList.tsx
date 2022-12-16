@@ -1,18 +1,25 @@
 import { groups, users } from '@prisma/client';
-import { FILTERS } from 'constancts/users';
+import { FILTERS } from 'constants/users';
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { List, Skeleton, Segmented, Select, Input } from 'antd';
+// import styled from 'styled-components';
+import { List, Select, Segmented, Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { AppAvatar } from './styled/AppAvatar.styled';
+
+type filterType = {
+  handleSelect: (value: string) => void;
+  value: string;
+  label: string;
+};
 
 const UserList = () => {
   const [userlist, setUserlist] = useState<users[]>([]);
   const [groups, getGroups] = useState<groups[]>([]);
-  const [selectedGroup, setSelectedGroup] = useState<string | undefined>();
+  const [selectedGroup, setSelectedGroup] = useState<string | number>();
   const [selectedFilter, setSelectedFilter] = useState<string | undefined>(
     FILTERS[0].value
   );
+
   const [searchValue, setSearchValue] = useState('');
 
   useEffect(() => {
@@ -29,11 +36,16 @@ const UserList = () => {
   }, []);
 
   useEffect(() => {
-    console.log('selectedGroup: ', selectedGroup);
-  }, [selectedGroup]);
+    console.log('selectedGroup: ', selectedGroup, 'groups: ', groups);
+  }, [selectedGroup, groups]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
+  };
+
+  const handleSelect = (value: string) => {
+    setSelectedFilter(value);
+    console.log('handleSelect', value);
   };
 
   return (
@@ -50,10 +62,10 @@ const UserList = () => {
           })),
         ]}
       />
-      <StyledSelect
+      <Select
         defaultValue={'byname'}
         value={selectedFilter}
-        onChange={setSelectedFilter}
+        onChange={handleSelect}
         options={FILTERS}
       />
       <Input
@@ -80,7 +92,3 @@ const UserList = () => {
 };
 
 export default UserList;
-
-const StyledSelect = styled(Select)`
-  width: 100px;
-`;
