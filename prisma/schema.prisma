@@ -14,12 +14,12 @@ datasource db {
 model groups {
   id Int @id @default(autoincrement())
   name String
-}
+} 
 
 model users {
   id Int @id @default(autoincrement())
   name String
-  image_url String?
+  image_url String
   group_id Int
   phone_number Int
   createdAt DateTime @default(now())

@@ -1,26 +1,26 @@
-import { groups, users } from '@prisma/client';
-import { FILTERS } from 'constants/users';
 import { useEffect, useState } from 'react';
-// import styled from 'styled-components';
+import { groups, users } from '@prisma/client';
+import { useQuery } from '@tanstack/react-query';
 import { List, Select, Segmented, Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { AppAvatar } from './styled/AppAvatar.styled';
-
-type filterType = {
-  handleSelect: (value: string) => void;
-  value: string;
-  label: string;
-};
+import { FILTERS } from 'constants/users';
 
 const UserList = () => {
   const [userlist, setUserlist] = useState<users[]>([]);
-  const [groups, getGroups] = useState<groups[]>([]);
+  // const [groups, getGroups] = useState<groups[]>([]);
   const [selectedGroup, setSelectedGroup] = useState<string | number>();
   const [selectedFilter, setSelectedFilter] = useState<string | undefined>(
     FILTERS[0].value
   );
 
   const [searchValue, setSearchValue] = useState('');
+
+  const { data: groups } = useQuery<{ items: groups[] }, unknown, groups[]>(
+    ['/api/get-groups'],
+    () => fetch('/api/get-groups').then((res) => res.json()),
+    { select: (data) => data.items }
+  );
 
   useEffect(() => {
     fetch(
@@ -29,11 +29,12 @@ const UserList = () => {
       .then((res) => res.json())
       .then((data) => setUserlist(data?.items));
   }, [selectedGroup, selectedFilter, searchValue]);
-  useEffect(() => {
-    fetch('/api/get-groups')
-      .then((res) => res.json())
-      .then((data) => getGroups(data?.items));
-  }, []);
+
+  // useEffect(() => {
+  //   fetch('/api/get-groups')
+  //     .then((res) => res.json())
+  //     .then((data) => getGroups(data?.items));
+  // }, []);
 
   useEffect(() => {
     console.log('selectedGroup: ', selectedGroup, 'groups: ', groups);
@@ -50,18 +51,20 @@ const UserList = () => {
 
   return (
     <>
-      <Segmented
-        defaultValue={'All'}
-        value={selectedGroup}
-        onChange={setSelectedGroup}
-        options={[
-          'All',
-          ...groups?.map((item: groups) => ({
-            label: item.name,
-            value: String(item.id),
-          })),
-        ]}
-      />
+      {groups && (
+        <Segmented
+          defaultValue={'All'}
+          value={selectedGroup}
+          onChange={setSelectedGroup}
+          options={[
+            'All',
+            ...groups.map((group) => ({
+              label: group.name,
+              value: String(group.id),
+            })),
+          ]}
+        />
+      )}
       <Select
         defaultValue={'byname'}
         value={selectedFilter}
