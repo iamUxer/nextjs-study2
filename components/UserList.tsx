@@ -1,10 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { groups, users } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
-import { List, Select, Segmented, Input } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
+import { List, Select, Segmented, Input, Button, Modal, Form } from 'antd';
+import {
+  SearchOutlined,
+  TeamOutlined,
+  UserAddOutlined,
+} from '@ant-design/icons';
 import { AppAvatar } from './styled/AppAvatar.styled';
 import { FILTERS } from 'constants/users';
+import { UserAddModalContext } from 'pages/_app';
+import UserAddModal from './UserAddModal';
 
 const UserList = () => {
   const [userlist, setUserlist] = useState<users[]>([]);
@@ -49,6 +55,13 @@ const UserList = () => {
     console.log('handleSelect', value);
   };
 
+  const { isModalOpen, setIsModalOpen } = useContext(UserAddModalContext);
+  console.log('sampleUserAddModalContext:', UserAddModalContext);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
   return (
     <>
       {groups && (
@@ -77,6 +90,11 @@ const UserList = () => {
         onChange={handleSearch}
         value={searchValue}
       />
+      <p>
+        <TeamOutlined /> {userlist.length}
+      </p>
+      <Button type="primary" icon={<UserAddOutlined />} onClick={showModal} />
+      <UserAddModal />
       <List itemLayout="horizontal">
         {userlist &&
           userlist.map((item: users) => (
