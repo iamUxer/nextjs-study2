@@ -1,20 +1,9 @@
-import { useEffect, useState, useContext } from 'react';
-import { groups, users } from '@prisma/client';
-import { useQuery } from '@tanstack/react-query';
-import { List, Select, Segmented, Input, Button, Modal, Form } from 'antd';
-import {
-  SearchOutlined,
-  TeamOutlined,
-  UserAddOutlined,
-} from '@ant-design/icons';
-import { AppAvatar } from './styled/AppAvatar.styled';
-import { FILTERS } from 'constants/users';
+import { useContext, useEffect } from 'react';
+import { Modal, Form } from 'antd';
 import { UserAddModalContext } from 'pages/_app';
 
 const UserAddModal = () => {
-  // const [isModalOpen, setIsModalOpen] = useState(false);
   const { isModalOpen, setIsModalOpen } = useContext(UserAddModalContext);
-  console.log('sampleUserAddModalContext:', UserAddModalContext);
 
   const handleOk = () => {
     setIsModalOpen(false);

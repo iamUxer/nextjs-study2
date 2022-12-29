@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { PhoneOutlined } from '@ant-design/icons';
 import { AppLayoutStyled, AppMenu } from './styled/AppLayout.styled';
+import { Button } from 'antd';
 
 type AppLayoutProps = {
   children: React.ReactNode;
@@ -9,6 +10,9 @@ type AppLayoutProps = {
 const AppLayout = ({ children }: AppLayoutProps) => {
   return (
     <>
+      <Link href="/auth/google">
+        <Button>Login</Button>
+      </Link>
       <AppMenu mode="horizontal">
         <AppMenu.Item icon={<PhoneOutlined />} key="home">
           <Link href="/">
