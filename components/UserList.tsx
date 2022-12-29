@@ -56,7 +56,6 @@ const UserList = () => {
   };
 
   const { isModalOpen, setIsModalOpen } = useContext(UserAddModalContext);
-  console.log('sampleUserAddModalContext:', UserAddModalContext);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -104,7 +103,7 @@ const UserList = () => {
                 title={item?.name}
                 // description={item?.createdAt}
               />
-              <div>{item.phone_number}</div>
+              <div>0{item.phone_number}</div>
             </List.Item>
           ))}
       </List>
