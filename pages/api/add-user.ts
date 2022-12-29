@@ -3,26 +3,6 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-// async function userCreate(name: string) {
-//   try {
-//     const response = await notion.pages.create({
-//       parent: { database_id: databaseId },
-//       properties: {
-//         title: [
-//           {
-//             text: {
-//               content: name,
-//             },
-//           },
-//         ],
-//       },
-//     });
-//     console.log(response);
-//   } catch (error) {
-//     console.error(JSON.stringify(error));
-//   }
-// }
-
 type Data = {
   message: string;
 };
