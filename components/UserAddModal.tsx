@@ -1,9 +1,9 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { Modal, Form } from 'antd';
-import { UserAddModalContext } from 'pages/_app';
+import { appContext } from 'context/context';
 
 const UserAddModal = () => {
-  const { isModalOpen, setIsModalOpen } = useContext(UserAddModalContext);
+  const { isModalOpen, setIsModalOpen } = useContext(appContext);
 
   const handleOk = () => {
     setIsModalOpen(false);

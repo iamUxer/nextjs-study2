@@ -9,12 +9,14 @@ import {
 } from '@ant-design/icons';
 import { AppAvatar } from './styled/AppAvatar.styled';
 import { FILTERS } from 'constants/users';
-import { UserAddModalContext } from 'pages/_app';
+
+import { appContext } from 'context/context';
 import UserAddModal from './UserAddModal';
 
 const UserList = () => {
+  const { isModalOpen, setIsModalOpen } = useContext(appContext);
+
   const [userlist, setUserlist] = useState<users[]>([]);
-  // const [groups, getGroups] = useState<groups[]>([]);
   const [selectedGroup, setSelectedGroup] = useState<string | number>();
   const [selectedFilter, setSelectedFilter] = useState<string | undefined>(
     FILTERS[0].value
@@ -22,7 +24,7 @@ const UserList = () => {
 
   const [searchValue, setSearchValue] = useState('');
 
-  const { data: groups } = useQuery<{ items: groups[] }, unknown, groups[]>(
+  const { data: groupsData } = useQuery<{ items: groups[] }, unknown, groups[]>(
     ['/api/get-groups'],
     () => fetch('/api/get-groups').then((res) => res.json()),
     { select: (data) => data.items }
@@ -36,16 +38,6 @@ const UserList = () => {
       .then((data) => setUserlist(data?.items));
   }, [selectedGroup, selectedFilter, searchValue]);
 
-  // useEffect(() => {
-  //   fetch('/api/get-groups')
-  //     .then((res) => res.json())
-  //     .then((data) => getGroups(data?.items));
-  // }, []);
-
-  useEffect(() => {
-    console.log('selectedGroup: ', selectedGroup, 'groups: ', groups);
-  }, [selectedGroup, groups]);
-
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
   };
@@ -55,22 +47,16 @@ const UserList = () => {
     console.log('handleSelect', value);
   };
 
-  const { isModalOpen, setIsModalOpen } = useContext(UserAddModalContext);
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
   return (
     <>
-      {groups && (
+      {groupsData && (
         <Segmented
           defaultValue={'All'}
           value={selectedGroup}
           onChange={setSelectedGroup}
           options={[
             'All',
-            ...groups.map((group) => ({
+            ...groupsData.map((group) => ({
               label: group.name,
               value: String(group.id),
             })),
@@ -90,9 +76,15 @@ const UserList = () => {
         value={searchValue}
       />
       <p>
-        <TeamOutlined /> {userlist.length}
+        <TeamOutlined /> {userlist?.length}
       </p>
-      <Button type="primary" icon={<UserAddOutlined />} onClick={showModal} />
+      <Button
+        type="primary"
+        icon={<UserAddOutlined />}
+        onClick={() => {
+          setIsModalOpen(true);
+        }}
+      />
       <UserAddModal />
       <List itemLayout="horizontal">
         {userlist &&
