@@ -6,7 +6,7 @@ import type { AppProps } from 'next/app';
 import AppLayout from '@components/AppLayout';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { SessionProvider } from 'next-auth/react';
-import { GOOGLE_CLIENT_ID } from 'constants/googleAuth';
+// import { GOOGLE_CLIENT_ID } from 'constants/googleAuth';
 
 import { AppContext } from 'context/context';
 
