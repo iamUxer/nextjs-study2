@@ -5,11 +5,15 @@ import 'antd/dist/antd.css';
 import type { AppProps } from 'next/app';
 import AppLayout from '@components/AppLayout';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import { CLIENT_ID } from 'constants/googleAuth';
+import { SessionProvider } from 'next-auth/react';
+import { GOOGLE_CLIENT_ID } from 'constants/googleAuth';
 
-import { appContext } from 'context/context';
+import { AppContext } from 'context/context';
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({
+  Component,
+  pageProps: { session, ...pageProps },
+}: AppProps) {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const queryClient = new QueryClient({
@@ -19,14 +23,16 @@ export default function App({ Component, pageProps }: AppProps) {
   });
 
   return (
-    <GoogleOAuthProvider clientId={CLIENT_ID}>
-      <appContext.Provider value={{ isModalOpen, setIsModalOpen }}>
+    // <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+    <SessionProvider session={session}>
+      <AppContext.Provider value={{ isModalOpen, setIsModalOpen }}>
         <QueryClientProvider client={queryClient}>
           <AppLayout>
             <Component {...pageProps} />
           </AppLayout>
         </QueryClientProvider>
-      </appContext.Provider>
-    </GoogleOAuthProvider>
+      </AppContext.Provider>
+    </SessionProvider>
+    // </GoogleOAuthProvider>
   );
 }
