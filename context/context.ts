@@ -5,7 +5,7 @@ type contextProps = {
   setIsModalOpen: (value: boolean) => void;
 };
 
-export const appContext = createContext<contextProps>({
+export const AppContext = createContext<contextProps>({
   isModalOpen: false,
   setIsModalOpen: () => {},
 });

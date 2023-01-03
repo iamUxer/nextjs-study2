@@ -10,7 +10,7 @@ type AppLayoutProps = {
 const AppLayout = ({ children }: AppLayoutProps) => {
   return (
     <>
-      <Link href="/auth/google">
+      <Link href="/auth/signin">
         <Button>Login</Button>
       </Link>
       <AppMenu mode="horizontal">

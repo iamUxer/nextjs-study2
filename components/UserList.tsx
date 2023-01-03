@@ -10,11 +10,11 @@ import {
 import { AppAvatar } from './styled/AppAvatar.styled';
 import { FILTERS } from 'constants/users';
 
-import { appContext } from 'context/context';
+import { AppContext } from 'context/context';
 import UserAddModal from './UserAddModal';
 
 const UserList = () => {
-  const { isModalOpen, setIsModalOpen } = useContext(appContext);
+  const { isModalOpen, setIsModalOpen } = useContext(AppContext);
 
   const [userlist, setUserlist] = useState<users[]>([]);
   const [selectedGroup, setSelectedGroup] = useState<string | number>();
