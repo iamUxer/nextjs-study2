@@ -25,6 +25,7 @@ const UserAddModal = () => {
   const [form] = Form.useForm();
 
   const onFinish = (users: any) => {
+    console.log(users);
     fetch(`/api/add-users`, {
       method: 'POST',
       body: JSON.stringify({
@@ -32,7 +33,7 @@ const UserAddModal = () => {
       }),
     })
       .then((response) => response.json())
-      .then((result) => console.log(result));
+      .then((result) => console.log('fetch result:::', result));
   };
 
   const normFile = (e: any) => {

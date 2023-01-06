@@ -21,14 +21,14 @@ model user {
 }
 
 model users {
-  id           Int      @id @default(autoincrement())
+  id           Int       @id @default(autoincrement())
   name         String
   image_url    String?
   group_id     Int
   phone_number Int
+  createdAt    DateTime  @default(now())
   birthday     DateTime?
   description  String?
-  createdAt    DateTime @default(now())
 
   @@index([group_id])
 }
