@@ -1,19 +1,5 @@
 import { useContext } from 'react';
-import {
-  Modal,
-  Form,
-  Input,
-  Button,
-  Radio,
-  Select,
-  Cascader,
-  DatePicker,
-  InputNumber,
-  TreeSelect,
-  Switch,
-  Checkbox,
-  Upload,
-} from 'antd';
+import { Modal, Form, Input, Button, Select, DatePicker, Upload } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { AppContext } from 'context/context';
 
@@ -24,16 +10,35 @@ const UserAddModal = () => {
   const { isModalOpen, setIsModalOpen } = useContext(AppContext);
   const [form] = Form.useForm();
 
-  const onFinish = (users: any) => {
-    console.log(users);
+  interface usersForm {
+    name: string;
+    phone_number?: number;
+    group_id?: number | null;
+    birthday?: string;
+    description?: string;
+    image_url?: object;
+  }
+
+  const onFinish = (users: usersForm) => {
+    console.log('usersForm:::::', users);
+    let birthday: any = users.birthday;
+    let image_url: any = users.image_url;
+    if (users.birthday === undefined) {
+      birthday = null;
+    }
+    if (users.image_url === undefined) {
+      image_url = null;
+    }
     fetch(`/api/add-users`, {
       method: 'POST',
       body: JSON.stringify({
         ...users,
+        birthday: birthday,
+        image_url: image_url,
       }),
     })
       .then((response) => response.json())
-      .then((result) => console.log('fetch result:::', result));
+      .then((response) => console.log('fetchee result:::', response));
   };
 
   const normFile = (e: any) => {

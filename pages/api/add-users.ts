@@ -1,38 +1,41 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Prisma } from '@prisma/client';
+import { type } from 'os';
 
 const prisma = new PrismaClient();
 
-async function createUsers({
-  name,
-  phone_number,
-  group_id,
-  birthday,
-  description,
-  image_url,
-}: {
-  name: string;
-  phone_number: number;
-  group_id: number;
-  birthday: string;
-  description: string;
-  image_url: object;
-}) {
-  console.log('async:', name, phone_number, group_id, birthday);
+async function createUsers(
+  name: string,
+  phone_number?: any,
+  group_id?: any,
+  birthday?: string,
+  description?: string,
+  image_url?: any | undefined
+) {
   try {
-    const response = await prisma.users.create({
-      create: {
-        birthday,
-      },
-    });
-    console.log('response : ', response);
-    return response;
+    console.log('createUsers:::', birthday);
+
+    if (name) {
+      const response = await prisma.users.create({
+        data: {
+          name: name,
+          phone_number: phone_number || null,
+          group_id: group_id || null,
+          birthday: birthday || null,
+          description: description,
+          image_url: image_url || null,
+        },
+      });
+      console.log('response : ', response);
+      return response;
+    }
   } catch (error) {
     console.error(error);
   }
 }
 
 type Data = {
+  items?: any;
   message: string;
 };
 
@@ -40,19 +43,20 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const users = JSON.parse(req.body);
-  console.log('users: ', users);
+  const { name, phone_number, group_id, birthday, description, image_url } =
+    JSON.parse(req.body);
+  console.log('JSON.parse:::', JSON.parse(req.body));
   try {
-    await createUsers({
-      name: String(users.name),
-      phone_number: Number(users.phone_number),
-      group_id: Number(users.group_id),
-      birthday: String(users.birthday),
-      description: String(users.description),
-      image_url: Object(users.image_url),
-    });
-    res.status(200).json({ message: `Success ${users} created` });
+    const users = await createUsers(
+      String(name),
+      Number(phone_number),
+      Number(group_id),
+      String(birthday),
+      String(description),
+      Object(image_url)
+    );
+    res.status(200).json({ items: users, message: `Success users created` });
   } catch (error) {
-    res.status(400).json({ message: `Failed ${users} created` });
+    res.status(400).json({ message: `Failed users created` });
   }
 }
