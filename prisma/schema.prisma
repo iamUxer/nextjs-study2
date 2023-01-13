@@ -21,13 +21,12 @@ model user {
 }
 
 model users {
-  id           Int       @id @default(autoincrement())
+  id           Int      @id @default(autoincrement())
   name         String
   image_url    String?
   group_id     Int?
   phone_number Int?
-  createdAt    DateTime  @default(now())
-  birthday     DateTime?
+  createdAt    DateTime @default(now())
   description  String?
 
   @@index([group_id])
@@ -75,4 +74,32 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model cf3a6bf2_bac4_5f5b_9043_357e2fdc849d_20230113081200_vrepl {
+  id           Int       @id @default(autoincrement())
+  name         String
+  image_url    String?
+  group_id     Int?
+  phone_number Int?
+  createdAt    DateTime  @default(now())
+  birthday     DateTime?
+  description  String?
+
+  @@index([group_id], map: "users_group_id_idx")
+  @@map("_cf3a6bf2_bac4_5f5b_9043_357e2fdc849d_20230113081200_vrepl")
+}
+
+model e301ad94_c814_5c7b_aa3a_9c49e05231c3_20230113081033_vrepl {
+  id           Int       @id @default(autoincrement())
+  name         String
+  image_url    String?
+  group_id     Int
+  phone_number Int
+  createdAt    DateTime  @default(now())
+  birthday     DateTime?
+  description  String?
+
+  @@index([group_id], map: "users_group_id_idx")
+  @@map("_e301ad94_c814_5c7b_aa3a_9c49e05231c3_20230113081033_vrepl")
 }
