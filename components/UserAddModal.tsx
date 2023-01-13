@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { Dispatch, SetStateAction, useContext } from 'react';
 import { Modal, Form, Input, Button, Select, DatePicker, Upload } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { AppContext } from 'context/context';
@@ -6,39 +6,34 @@ import { AppContext } from 'context/context';
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
-const UserAddModal = () => {
+interface GreetingsProps {
+  selectedGroup: (value: any) => void;
+}
+
+const UserAddModal = ({ selectedGroup }: GreetingsProps) => {
   const { isModalOpen, setIsModalOpen } = useContext(AppContext);
   const [form] = Form.useForm();
 
   interface usersForm {
     name: string;
-    phone_number?: number;
+    phone_number?: number | null;
     group_id?: number | null;
-    birthday?: string;
+    birthday?: Date | null;
     description?: string;
     image_url?: object;
   }
 
   const onFinish = (users: usersForm) => {
     console.log('usersForm:::::', users);
-    let birthday: any = users.birthday;
-    let image_url: any = users.image_url;
-    if (users.birthday === undefined) {
-      birthday = null;
-    }
-    if (users.image_url === undefined) {
-      image_url = null;
-    }
+
     fetch(`/api/add-users`, {
       method: 'POST',
       body: JSON.stringify({
         ...users,
-        birthday: birthday,
-        image_url: image_url,
       }),
     })
       .then((response) => response.json())
-      .then((response) => console.log('fetchee result:::', response));
+      .then((response) => selectedGroup(''));
   };
 
   const normFile = (e: any) => {
@@ -82,9 +77,6 @@ const UserAddModal = () => {
             <Select.Option value="3">Colleague</Select.Option>
             <Select.Option value="4">Study-Parties</Select.Option>
           </Select>
-        </Form.Item>
-        <Form.Item name="birthday" label="Birthday">
-          <DatePicker />
         </Form.Item>
         <Form.Item name="description" label="Description">
           <TextArea rows={4} />

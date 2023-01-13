@@ -17,7 +17,9 @@ const UserList = () => {
   const { isModalOpen, setIsModalOpen } = useContext(AppContext);
 
   const [userlist, setUserlist] = useState<users[]>([]);
-  const [selectedGroup, setSelectedGroup] = useState<string | number>();
+  const [selectedGroup, setSelectedGroup] = useState<
+    string | number | undefined
+  >();
   const [selectedFilter, setSelectedFilter] = useState<string | undefined>(
     FILTERS[0].value
   );
@@ -85,7 +87,7 @@ const UserList = () => {
           setIsModalOpen(true);
         }}
       />
-      <UserAddModal />
+      <UserAddModal selectedGroup={selectedGroup} />
       <List itemLayout="horizontal">
         {userlist &&
           userlist.map((item: users) => (

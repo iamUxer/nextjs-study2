@@ -8,20 +8,18 @@ async function createUsers(
   name: string,
   phone_number?: any,
   group_id?: any,
-  birthday?: string,
+  // birthday?: string | Date,
   description?: string,
   image_url?: any | undefined
 ) {
   try {
-    console.log('createUsers:::', birthday);
-
     if (name) {
       const response = await prisma.users.create({
         data: {
           name: name,
           phone_number: phone_number || null,
           group_id: group_id || null,
-          birthday: birthday || null,
+          // birthday: birthday || null,
           description: description,
           image_url: image_url || null,
         },
@@ -51,9 +49,9 @@ export default async function handler(
       String(name),
       Number(phone_number),
       Number(group_id),
-      String(birthday),
+      // String(birthday),
       String(description),
-      Object(image_url)
+      String(image_url)
     );
     res.status(200).json({ items: users, message: `Success users created` });
   } catch (error) {
