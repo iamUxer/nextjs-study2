@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 async function createUsers(
   name: string,
-  phone_number?: number | null,
+  phone_number: number | null,
   group_id?: number | null,
   // birthday?: string | Date,
   description?: string,
@@ -17,8 +17,8 @@ async function createUsers(
       const response = await prisma.users.create({
         data: {
           name: name,
-          phone_number: phone_number,
-          group_id: group_id,
+          phone_number: phone_number!,
+          group_id: group_id!,
           // birthday: birthday || null,
           description: description,
           image_url: image_url,
