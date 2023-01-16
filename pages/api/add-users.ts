@@ -10,7 +10,7 @@ async function createUsers(
   group_id?: number | null,
   // birthday?: string | Date,
   description?: string,
-  image_url?: string | undefined
+  image_url?: string
 ) {
   try {
     if (name) {
@@ -21,7 +21,7 @@ async function createUsers(
           group_id: group_id!,
           // birthday: birthday || null,
           description: description,
-          image_url: image_url,
+          image_url: image_url || '',
         },
       });
       console.log('response : ', response);
@@ -51,7 +51,7 @@ export default async function handler(
       Number(group_id),
       // String(birthday),
       String(description),
-      String(image_url)
+      Object(image_url)
     );
     res.status(200).json({ items: users, message: `Success users created` });
   } catch (error) {
