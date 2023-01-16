@@ -51,7 +51,7 @@ export default async function handler(
       Number(group_id),
       // String(birthday),
       String(description),
-      String(image_url)
+      Object(image_url)
     );
     res.status(200).json({ items: users, message: `Success users created` });
   } catch (error) {
