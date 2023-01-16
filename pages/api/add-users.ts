@@ -20,7 +20,7 @@ async function createUsers(
           phone_number: phone_number!,
           group_id: group_id!,
           // birthday: birthday || null,
-          description: description! || '',
+          description: description as string,
           image_url: image_url || '',
         },
       });
