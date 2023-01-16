@@ -6,11 +6,11 @@ const prisma = new PrismaClient();
 
 async function createUsers(
   name: string,
-  phone_number?: any,
-  group_id?: any,
+  phone_number?: number,
+  group_id?: number,
   // birthday?: string | Date,
   description?: string,
-  image_url?: any | undefined
+  image_url?: string | undefined
 ) {
   try {
     if (name) {
