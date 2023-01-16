@@ -17,11 +17,11 @@ async function createUsers(
       const response = await prisma.users.create({
         data: {
           name: name,
-          phone_number: phone_number || null,
-          group_id: group_id || null,
+          phone_number: phone_number,
+          group_id: group_id,
           // birthday: birthday || null,
           description: description,
-          image_url: image_url || null,
+          image_url: image_url,
         },
       });
       console.log('response : ', response);
