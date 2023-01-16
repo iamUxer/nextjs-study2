@@ -7,10 +7,10 @@ const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
 interface GreetingsProps {
-  selectedGroup: (value: any) => void;
+  setSelectedGroup: (value: string | number | undefined) => void;
 }
 
-const UserAddModal = ({ selectedGroup }: GreetingsProps) => {
+const UserAddModal = ({ setSelectedGroup }: GreetingsProps) => {
   const { isModalOpen, setIsModalOpen } = useContext(AppContext);
   const [form] = Form.useForm();
 
@@ -33,7 +33,10 @@ const UserAddModal = ({ selectedGroup }: GreetingsProps) => {
       }),
     })
       .then((response) => response.json())
-      .then((response) => selectedGroup(''));
+      .then((response) => {
+        setSelectedGroup('');
+        setIsModalOpen(false);
+      });
   };
 
   const normFile = (e: any) => {

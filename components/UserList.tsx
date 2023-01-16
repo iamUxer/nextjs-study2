@@ -87,7 +87,7 @@ const UserList = () => {
           setIsModalOpen(true);
         }}
       />
-      <UserAddModal selectedGroup={selectedGroup} />
+      <UserAddModal setSelectedGroup={setSelectedGroup} />
       <List itemLayout="horizontal">
         {userlist &&
           userlist.map((item: users) => (
@@ -97,7 +97,11 @@ const UserList = () => {
                 title={item?.name}
                 // description={item?.createdAt}
               />
-              <div>0{item.phone_number}</div>
+              {item.phone_number ? (
+                <div>0{item.phone_number}</div>
+              ) : (
+                <div>번호없음</div>
+              )}
             </List.Item>
           ))}
       </List>
