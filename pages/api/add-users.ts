@@ -6,8 +6,8 @@ const prisma = new PrismaClient();
 
 async function createUsers(
   name: string,
-  phone_number?: number,
-  group_id?: number,
+  phone_number?: number | null,
+  group_id?: number | null,
   // birthday?: string | Date,
   description?: string,
   image_url?: string | undefined
